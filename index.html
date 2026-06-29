@@ -3,144 +3,210 @@
 <head>
   <title>hey daddy clicker</title>
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background: #c2b49a;
-      font-family: Arial, sans-serif;
-      margin: 0;
+      background: #1a1a2e;
+      font-family: 'Courier New', monospace;
+      color: #eee;
+      min-height: 100vh;
       padding: 10px;
     }
 
     h1 {
-      font-size: 28px;
       text-align: center;
-      color: #111;
-      margin: 5px 0 0 0;
-      text-decoration: underline;
+      font-size: 26px;
+      color: #ffd700;
+      padding: 10px 0 4px 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     #counter {
       text-align: center;
-      font-size: 22px;
-      margin: 8px 0;
-      color: #111;
+      font-size: 30px;
+      color: #fff;
+      font-weight: bold;
+      margin: 4px 0 2px 0;
     }
 
     #per-sec {
       text-align: center;
       font-size: 14px;
-      color: #444;
-      margin-bottom: 6px;
+      color: #aaa;
+      margin-bottom: 10px;
     }
 
     #main {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       justify-content: center;
       align-items: flex-start;
       flex-wrap: wrap;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
+    /* STATS */
+    #stats {
+      background: #16213e;
+      border: 2px solid #0f3460;
+      padding: 10px;
+      width: 160px;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    #stats h2 {
+      font-size: 15px;
+      color: #ffd700;
+      border-bottom: 1px solid #0f3460;
+      padding-bottom: 5px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    #stats p {
+      margin: 4px 0;
+      color: #ccc;
+    }
+
+    #stats span {
+      color: #fff;
+      font-weight: bold;
+    }
+
+    /* CLICKER */
     #clicker-area {
       display: flex;
       flex-direction: column;
       align-items: center;
+      flex-shrink: 0;
+    }
+
+    #daddy-wrap {
+      width: 180px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #16213e;
+      border: 3px solid #0f3460;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    #daddy-wrap:active {
+      border-color: #ffd700;
     }
 
     #daddy {
-      width: 180px;
-      cursor: pointer;
-      border: 3px solid #333;
+      max-width: 170px;
+      max-height: 170px;
       display: block;
-      image-rendering: pixelated;
-    }
-
-    #daddy:active {
-      margin-top: 3px;
-      margin-bottom: -3px;
+      pointer-events: none;
     }
 
     #click-label {
-      font-size: 13px;
-      color: #222;
-      margin-top: 4px;
+      font-size: 12px;
+      color: #888;
+      margin-top: 6px;
     }
 
+    #click-power-label {
+      font-size: 13px;
+      color: #ffd700;
+      margin-top: 3px;
+    }
+
+    /* UPGRADES */
     #upgrades {
-      background: #e8dcc8;
-      border: 2px solid #555;
-      padding: 8px;
-      width: 260px;
+      background: #16213e;
+      border: 2px solid #0f3460;
+      padding: 10px;
+      width: 270px;
+      flex-shrink: 0;
     }
 
     #upgrades h2 {
-      font-size: 16px;
-      margin: 0 0 6px 0;
-      border-bottom: 1px solid #888;
-      padding-bottom: 4px;
+      font-size: 15px;
+      color: #ffd700;
+      border-bottom: 1px solid #0f3460;
+      padding-bottom: 5px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
     }
 
     .upgrade-btn {
       display: block;
       width: 100%;
-      background: #d4c4a0;
-      border: 2px solid #666;
-      padding: 6px 8px;
+      background: #0f3460;
+      border: 1px solid #1a5276;
+      padding: 7px 8px;
       margin-bottom: 6px;
       cursor: pointer;
       text-align: left;
-      font-size: 13px;
-      box-sizing: border-box;
+      font-family: 'Courier New', monospace;
+      color: #eee;
+      font-size: 12px;
+    }
+
+    .upgrade-btn:hover:not(:disabled) {
+      background: #1a4a7a;
+      border-color: #ffd700;
     }
 
     .upgrade-btn:disabled {
-      background: #bbb;
-      color: #888;
+      background: #111827;
+      color: #555;
+      border-color: #222;
       cursor: default;
-      border-color: #999;
     }
 
-    .upgrade-btn .upg-name {
+    .upg-name {
       font-weight: bold;
+      font-size: 13px;
       display: block;
+      color: #fff;
     }
 
-    .upgrade-btn .upg-desc {
-      font-size: 11px;
+    .upgrade-btn:disabled .upg-name {
       color: #555;
     }
 
-    .upgrade-btn .upg-cost {
-      font-size: 12px;
-      color: #222;
-    }
-
-    #stats {
-      background: #e8dcc8;
-      border: 2px solid #555;
-      padding: 8px;
-      width: 150px;
-      font-size: 13px;
-    }
-
-    #stats h2 {
-      font-size: 16px;
-      margin: 0 0 6px 0;
-      border-bottom: 1px solid #888;
-      padding-bottom: 4px;
-    }
-
-    #stats p {
-      margin: 3px 0;
-    }
-
-    #audio-btn {
+    .upg-desc {
       display: block;
-      margin: 8px auto 0 auto;
-      padding: 4px 12px;
-      font-size: 13px;
-      cursor: pointer;
-      background: #d4c4a0;
-      border: 2px solid #666;
+      font-size: 11px;
+      color: #888;
+      margin-top: 1px;
+    }
+
+    .upg-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 3px;
+    }
+
+    .upg-cost {
+      font-size: 12px;
+      color: #ffd700;
+    }
+
+    .upgrade-btn:disabled .upg-cost {
+      color: #555;
+    }
+
+    .upg-owned {
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    #audio-note {
+      text-align: center;
+      font-size: 11px;
+      color: #555;
+      margin-top: 8px;
     }
   </style>
 </head>
@@ -148,21 +214,25 @@
 
 <h1>hey daddy clicker</h1>
 <div id="counter">0 daddies</div>
-<div id="per-sec">0 per second</div>
+<div id="per-sec">0.0 per second</div>
 
 <div id="main">
 
   <div id="stats">
     <h2>stats</h2>
-    <p>total clicks: <span id="stat-clicks">0</span></p>
-    <p>total earned: <span id="stat-total">0</span></p>
-    <p id="stat-upgrades-owned">upgrades: 0</p>
+    <p>clicks: <span id="stat-clicks">0</span></p>
+    <p>total: <span id="stat-total">0</span></p>
+    <p>upgrades: <span id="stat-upg">0</span></p>
+    <p>per click: <span id="stat-cpc">1</span></p>
+    <p>per sec: <span id="stat-cps">0.0</span></p>
   </div>
 
   <div id="clicker-area">
-    <img id="daddy" src="https://raw.githubusercontent.com/messenger-co/hey-daddy-clicker/main/image.png" alt="daddy" />
-    <span id="click-label">click daddy</span>
-    <button id="audio-btn" onclick="toggleAudio()">▶ play music</button>
+    <div id="daddy-wrap" onclick="doClick()">
+      <img id="daddy" src="https://raw.githubusercontent.com/messenger-co/hey-daddy-clicker/main/image.png" alt="daddy" />
+    </div>
+    <div id="click-label">click daddy</div>
+    <div id="click-power-label">+<span id="cpc-show">1</span> per click</div>
   </div>
 
   <div id="upgrades">
@@ -171,6 +241,8 @@
   </div>
 
 </div>
+
+<p id="audio-note">♪ music auto-plays on first click</p>
 
 <audio id="bgm" loop>
   <source src="https://raw.githubusercontent.com/messenger-co/hey-daddy-clicker/main/tam.mp4" type="video/mp4">
@@ -182,47 +254,44 @@
   var totalClicks = 0;
   var clickPower = 1;
   var perSecond = 0;
-  var audioPlaying = false;
+  var audioStarted = false;
 
   var upgrades = [
-    { id: 0, name: "better finger",      desc: "+1 per click",         cost: 10,    bought: 0, type: "click",  value: 1 },
-    { id: 1, name: "grandma",            desc: "+0.1 per second",      cost: 50,    bought: 0, type: "auto",   value: 0.1 },
-    { id: 2, name: "strong finger",      desc: "+3 per click",         cost: 100,   bought: 0, type: "click",  value: 3 },
-    { id: 3, name: "a dog",              desc: "+0.5 per second",      cost: 250,   bought: 0, type: "auto",   value: 0.5 },
-    { id: 4, name: "robot hand",         desc: "+5 per click",         cost: 500,   bought: 0, type: "click",  value: 5 },
-    { id: 5, name: "a whole farm",       desc: "+2 per second",        cost: 1000,  bought: 0, type: "auto",   value: 2 },
-    { id: 6, name: "laser finger",       desc: "+15 per click",        cost: 2500,  bought: 0, type: "click",  value: 15 },
-    { id: 7, name: "daddy factory",      desc: "+10 per second",       cost: 5000,  bought: 0, type: "auto",   value: 10 },
-    { id: 8, name: "the dad dimension",  desc: "+50 per click",        cost: 10000, bought: 0, type: "click",  value: 50 },
-    { id: 9, name: "infinite daddies",   desc: "+50 per second",       cost: 25000, bought: 0, type: "auto",   value: 50 },
+    { id:0, name:"better finger",     desc:"+1 per click",      baseCost:10,    bought:0, type:"click", value:1 },
+    { id:1, name:"grandma",           desc:"+0.1/sec",          baseCost:50,    bought:0, type:"auto",  value:0.1 },
+    { id:2, name:"strong finger",     desc:"+3 per click",      baseCost:100,   bought:0, type:"click", value:3 },
+    { id:3, name:"a dog",             desc:"+0.5/sec",          baseCost:250,   bought:0, type:"auto",  value:0.5 },
+    { id:4, name:"robot hand",        desc:"+5 per click",      baseCost:500,   bought:0, type:"click", value:5 },
+    { id:5, name:"a whole farm",      desc:"+2/sec",            baseCost:1000,  bought:0, type:"auto",  value:2 },
+    { id:6, name:"laser finger",      desc:"+15 per click",     baseCost:2500,  bought:0, type:"click", value:15 },
+    { id:7, name:"daddy factory",     desc:"+10/sec",           baseCost:5000,  bought:0, type:"auto",  value:10 },
+    { id:8, name:"dad dimension",     desc:"+50 per click",     baseCost:10000, bought:0, type:"click", value:50 },
+    { id:9, name:"infinite daddies",  desc:"+50/sec",           baseCost:25000, bought:0, type:"auto",  value:50 }
   ];
 
-  function renderUpgrades() {
-    var list = document.getElementById("upgrade-list");
-    list.innerHTML = "";
-    for (var i = 0; i < upgrades.length; i++) {
-      var u = upgrades[i];
-      var btn = document.createElement("button");
-      btn.className = "upgrade-btn";
-      var costNow = Math.floor(u.cost * Math.pow(1.15, u.bought));
-      btn.innerHTML =
-        '<span class="upg-name">' + u.name + (u.bought > 0 ? ' (x' + u.bought + ')' : '') + '</span>' +
-        '<span class="upg-desc">' + u.desc + '</span>' +
-        '<span class="upg-cost">cost: ' + costNow + '</span>';
-      btn.disabled = cookies < costNow;
-      btn.setAttribute("data-id", i);
-      btn.onclick = function() {
-        buyUpgrade(parseInt(this.getAttribute("data-id")));
-      };
-      list.appendChild(btn);
+  function getCost(u) {
+    return Math.floor(u.baseCost * Math.pow(1.15, u.bought));
+  }
+
+  function doClick() {
+    cookies += clickPower;
+    totalEarned += clickPower;
+    totalClicks++;
+
+    if (!audioStarted) {
+      document.getElementById("bgm").play().catch(function(){});
+      audioStarted = true;
+      document.getElementById("audio-note").textContent = "♪ music playing";
     }
+
+    updateDisplay();
   }
 
   function buyUpgrade(id) {
     var u = upgrades[id];
-    var costNow = Math.floor(u.cost * Math.pow(1.15, u.bought));
-    if (cookies >= costNow) {
-      cookies -= costNow;
+    var cost = getCost(u);
+    if (cookies >= cost) {
+      cookies -= cost;
       u.bought++;
       if (u.type === "click") {
         clickPower += u.value;
@@ -231,46 +300,48 @@
       }
       updateDisplay();
       renderUpgrades();
-      updateStats();
     }
   }
-
-  document.getElementById("daddy").onclick = function() {
-    cookies += clickPower;
-    totalEarned += clickPower;
-    totalClicks++;
-    updateDisplay();
-    renderUpgrades();
-    updateStats();
-  };
 
   function updateDisplay() {
     document.getElementById("counter").textContent = Math.floor(cookies) + " daddies";
     document.getElementById("per-sec").textContent = perSecond.toFixed(1) + " per second";
-  }
-
-  function updateStats() {
     document.getElementById("stat-clicks").textContent = totalClicks;
     document.getElementById("stat-total").textContent = Math.floor(totalEarned);
+    document.getElementById("stat-cpc").textContent = clickPower;
+    document.getElementById("stat-cps").textContent = perSecond.toFixed(1);
+    document.getElementById("cpc-show").textContent = clickPower;
+
     var owned = 0;
     for (var i = 0; i < upgrades.length; i++) owned += upgrades[i].bought;
-    document.getElementById("stat-upgrades-owned").textContent = "upgrades: " + owned;
+    document.getElementById("stat-upg").textContent = owned;
   }
 
-  function toggleAudio() {
-    var audio = document.getElementById("bgm");
-    var btn = document.getElementById("audio-btn");
-    if (audioPlaying) {
-      audio.pause();
-      btn.textContent = "▶ play music";
-      audioPlaying = false;
-    } else {
-      audio.play();
-      btn.textContent = "⏸ pause music";
-      audioPlaying = true;
+  function renderUpgrades() {
+    var list = document.getElementById("upgrade-list");
+    list.innerHTML = "";
+    for (var i = 0; i < upgrades.length; i++) {
+      var u = upgrades[i];
+      var cost = getCost(u);
+      var btn = document.createElement("button");
+      btn.className = "upgrade-btn";
+      btn.disabled = cookies < cost;
+      btn.setAttribute("data-id", String(i));
+      btn.innerHTML =
+        '<span class="upg-name">' + u.name + '</span>' +
+        '<span class="upg-desc">' + u.desc + '</span>' +
+        '<div class="upg-row">' +
+          '<span class="upg-cost">' + cost + ' daddies</span>' +
+          '<span class="upg-owned">owned: ' + u.bought + '</span>' +
+        '</div>';
+      btn.addEventListener("click", function() {
+        buyUpgrade(parseInt(this.getAttribute("data-id")));
+      });
+      list.appendChild(btn);
     }
   }
 
+  // auto clicker tick
   setInterval(function() {
     if (perSecond > 0) {
       var gain = perSecond / 20;
@@ -282,6 +353,7 @@
   }, 50);
 
   renderUpgrades();
+  updateDisplay();
 </script>
 
 </body>
